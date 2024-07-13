@@ -4,21 +4,18 @@ BX.ready(function()
     {
         if ( event.keyCode == 27 )
         {
-            document.querySelector('#bx-admin-prefix').each(function(idx)
+            if( document.querySelector('textarea[name="execute_code"]') )
             {
-                if( document.querySelector('textarea[name="execute_code"]').length )
-                {
-                    alert("Перехват закрытия окна!");
+                alert("Перехват закрытия окна!");
 
-                    return false;
-                }
-            });
+                return false;
+            }
         }
     };
 
     BX.addCustomEvent("onAjaxSuccessFinish", BX.delegate(function(data)
     {
-        if( data.data && data.data.includes('EditorComment') )
+        if( data.data && data.data.includes('EditorComment') && document.querySelector('textarea[name="execute_code"]') )
         {
             document.querySelector('textarea[name="execute_code"]').id = 'execute_code';
 
