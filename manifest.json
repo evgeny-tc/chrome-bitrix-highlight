@@ -4,7 +4,12 @@
   "manifest_version": 3,
   "content_scripts": [
     {
-      "matches": ["https://*/crm/configs/bp/*", "http://*/crm/configs/bp/*"],
+      "matches": [
+        "https://*/crm/configs/bp/*",
+        "http://*/crm/configs/bp/*",
+        "https://*/services/lists/*/bp_edit/*",
+        "http://*/services/lists/*/bp_edit/*"
+      ],
       "js": [ "jquery.js", "background.js" ],
       "run_at": "document_end"
     }
