@@ -1,6 +1,6 @@
 {
   "name": "Битрикс БП - подсветка php-кода",
-  "version": "2.0",
+  "version": "2.1",
   "manifest_version": 3,
   "content_scripts": [
     {
@@ -8,7 +8,9 @@
         "https://*/crm/configs/bp/*",
         "http://*/crm/configs/bp/*",
         "https://*/services/lists/*/bp_edit/*",
-        "http://*/services/lists/*/bp_edit/*"
+        "http://*/services/lists/*/bp_edit/*",
+        "https://*/bizproc/processes/*/bp_edit/*",
+        "http://*/bizproc/processes/*/bp_edit/*"
       ],
       "js": [ "jquery.js", "background.js" ],
       "run_at": "document_end"
