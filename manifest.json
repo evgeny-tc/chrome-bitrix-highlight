@@ -1,6 +1,6 @@
 {
   "name": "Битрикс24 БП - подсветка php-кода",
-  "version": "2.1",
+  "version": "3.0",
   "manifest_version": 3,
   "content_scripts": [
     {
