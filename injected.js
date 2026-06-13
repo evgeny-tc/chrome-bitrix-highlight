@@ -89,7 +89,6 @@ BX.ready(function()
         if( data.url && data.url.includes('compatible_selector.php' ) )
         {
             const $form = $('.bx-core-adm-dialog-content').last().find('form[name="bx_popup_form"]');
-
             if (!$form.length) return;
 
             $('.select-search-container').remove();
@@ -106,7 +105,7 @@ BX.ready(function()
 
                 if ($form.find(`#${nativeSearchId}`).length) return;
 
-                const originalHTML = $select[0].outerHTML;
+                const originalHtml = $select.html();
 
                 $select.before(`
                     <div class="select-search-container" style="margin-bottom: 5px; position: relative;">
@@ -119,21 +118,29 @@ BX.ready(function()
 
                 const $searchInput = $select.prev().find('.select-search-input');
 
+                function getCleanText(option) {
+
+                    const $clone = $(option).clone();
+
+                    $clone.find('font').contents().unwrap();
+                    return $clone.text().trim().toLowerCase();
+                }
+
                 $searchInput.on('input', function() {
                     const searchText = $(this).val().toLowerCase().trim();
 
                     if (!searchText) {
-                        const $newSelect = $(originalHTML);
-                        $select.replaceWith($newSelect);
+                        $select.html(originalHtml);
                         return;
                     }
 
                     $select.find('option').each(function() {
                         const $opt = $(this);
-                        const text = $opt.text().toLowerCase();
+                        const text = getCleanText(this);
 
                         if (text.includes(searchText)) {
                             $opt.show();
+                            // Показываем родительский optgroup
                             if ($opt.parent().is('optgroup')) {
                                 $opt.parent().show();
                             }
@@ -143,11 +150,8 @@ BX.ready(function()
                     });
 
                     $select.find('optgroup').each(function() {
-                        const $group = $(this);
-                        if ($group.find('option:visible').length === 0) {
-                            $group.hide();
-                        } else {
-                            $group.show();
+                        if ($(this).find('option:visible').length === 0) {
+                            $(this).hide();
                         }
                     });
 
@@ -156,6 +160,14 @@ BX.ready(function()
                             $select.after('<div class="no-results" style="color: red; padding: 5px;">❌ Ничего не найдено</div>');
                         }
                     } else {
+                        $select.next('.no-results').remove();
+                    }
+                });
+
+                $searchInput.on('keydown', function(e) {
+                    if (e.key === 'Escape') {
+                        $(this).val('');
+                        $select.html(originalHtml);
                         $select.next('.no-results').remove();
                     }
                 });
